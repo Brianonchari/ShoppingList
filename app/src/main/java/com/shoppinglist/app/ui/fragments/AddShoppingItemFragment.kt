@@ -59,7 +59,7 @@ class AddShoppingItemFragment @Inject constructor(
                 when(result.status){
                     Status.SUCCESS ->{
                         Snackbar.make(
-                            requireActivity().rootLayout,
+                            requireView(),
                              "Added Shopping Item",
                         Snackbar.LENGTH_LONG
                         ).show()
