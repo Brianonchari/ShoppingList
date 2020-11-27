@@ -21,13 +21,14 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShoppingFragment @Inject constructor(
-    private val shoppingItemAdapter: ShoppingItemAdapter
+     val shoppingItemAdapter: ShoppingItemAdapter,
+     var viewModel: ShoppingViewModel?=null
+
 ) : Fragment(R.layout.fragment_shopping) {
-    lateinit var viewModel: ShoppingViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(ShoppingViewModel::class.java)
+        viewModel = viewModel?: ViewModelProvider(requireActivity()).get(ShoppingViewModel::class.java)
         subscribeToObservers()
         setupRecyclerView()
         fabAddShoppingItem.setOnClickListener {
@@ -47,12 +48,12 @@ class ShoppingFragment @Inject constructor(
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val pos = viewHolder.layoutPosition
             val item = shoppingItemAdapter.shoppingItems[pos]
-            viewModel.deleteShoppingItem(item)
+            viewModel?.deleteShoppingItem(item)
 
             Snackbar.make(requireView(), "Successfuly deleted", Snackbar.LENGTH_LONG)
                 .apply {
                     setAction("UNDO") {
-                        viewModel.insertShoppingItemIntoDb(item)
+                        viewModel?.insertShoppingItemIntoDb(item)
                     }
                     show()
                 }
@@ -60,11 +61,11 @@ class ShoppingFragment @Inject constructor(
     }
 
     private fun subscribeToObservers(){
-        viewModel.shoppingItems.observe(viewLifecycleOwner, Observer {
+        viewModel?.shoppingItems?.observe(viewLifecycleOwner, Observer {
             shoppingItemAdapter.shoppingItems = it
         })
 
-        viewModel.totalPrice.observe(viewLifecycleOwner, Observer {
+        viewModel?.totalPrice?.observe(viewLifecycleOwner, Observer {
             val price = it ?: 0
             val priceText = "Total Price: $price Kes "
             tvShoppingItemPrice.text = priceText

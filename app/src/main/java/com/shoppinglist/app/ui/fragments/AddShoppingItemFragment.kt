@@ -13,8 +13,10 @@ import com.shoppinglist.app.R
 import com.shoppinglist.app.ui.viewmodel.ShoppingViewModel
 import com.shoppinglist.app.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_shopping_item.*
 import kotlinx.android.synthetic.main.fragment_shopping.*
+import kotlinx.android.synthetic.main.fragment_shopping.rootLayout
 import javax.inject.Inject
 
 @AndroidEntryPoint
